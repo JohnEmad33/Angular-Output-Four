@@ -34,14 +34,14 @@ input[type="submit"] {
 }
 
 input[type="submit"]:disabled {
-    width: 100%;
-    background-color:rgb(150,150,150);
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  width: 100%;
+  background-color: rgb(150, 150, 150);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .form,
 .form-data {
   border-radius: 5px;
@@ -54,7 +54,7 @@ input[type="submit"]:disabled {
 input.ng-invalid.ng-touched {
   border: red 1px solid;
 }
-span {
+small {
   color: red;
 }
 
@@ -71,3 +71,9 @@ span {
   border: #2ee536 1px solid;
   box-shadow: 0 0 31px rgba(78, 233, 84, 0.7) !important;
 }
+.icon {
+  color: black;
+  height:58px;
+  margin: 8px 0;
+}
+

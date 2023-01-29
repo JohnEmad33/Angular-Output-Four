@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,6 +21,8 @@ export class AppComponent implements OnInit {
   skills: string;
   pass: string;
   submitted: boolean = false;
+  showPass: boolean = false;
+  showConfirmPass: boolean = false;
 
   ngOnInit() {
     this.reactiveForm = new FormGroup({
@@ -41,7 +44,7 @@ export class AppComponent implements OnInit {
       confirmPassword: new FormControl(null, [
         Validators.required,
         Validators.minLength(8),
-        // this.repassword,
+        this.repassword.bind(this),
       ]),
       age: new FormControl(null, [
         Validators.required,
@@ -77,20 +80,46 @@ export class AppComponent implements OnInit {
     this.skills = this.reactiveForm.get('skills').value;
     this.submitted = true;
     if (this.reactiveForm.valid) {
-      // this.submitted = false;
     } else {
       alert('There is some INVALID enteries in the form!!');
     }
   }
-  onReset(){
+  onReset() {
     this.reactiveForm.reset();
-      this.submitted = false;
+    this.submitted = false;
   }
 
   addSkills() {
     (<FormArray>this.reactiveForm.get('skills')).push(
       new FormControl(null, Validators.required)
     );
+  }
+
+  viewPass() {
+      return this.showPass?'text' : 'password'
+  }
+  viewConfirmPass() {
+    return this.showConfirmPass?'text' : 'password'
+}
+
+  toggleShowPass(){
+    if(this.showPass)
+    {
+      this.showPass=false;
+    }
+    else{
+      this.showPass=true;
+    }
+  }
+
+  toggleShowConfirmPass(){
+    if(this.showConfirmPass)
+    {
+      this.showConfirmPass=false;
+    }
+    else{
+      this.showConfirmPass=true;
+    }
   }
 
   noSpaceAllowed(control: FormControl) {
@@ -107,13 +136,13 @@ export class AppComponent implements OnInit {
     return null;
   }
 
-  // repassword(control: FormControl) {
-  //   if (
-  //     control.value != null &&
-  //     control.value != this.reactiveForm.get('password').value
-  //   ) {
-  //     return { repassword: true };
-  //   }
-  //   return null;
-  // }
+  repassword(control: FormControl) {
+    if (
+      control.value != null &&
+      control.value != this.reactiveForm.get('password').value
+    ) {
+      return { repassword: true };
+    }
+    return null;
+  }
 }

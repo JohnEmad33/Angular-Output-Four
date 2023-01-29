@@ -1,5 +1,11 @@
 <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
-  <div class="form myForm" [ngClass]="{INVALID:reactiveForm.touched&&reactiveForm.invalid,VALID:reactiveForm.valid}">
+  <div
+    class="form myForm"
+    [ngClass]="{
+      INVALID: reactiveForm.touched && reactiveForm.invalid,
+      VALID: reactiveForm.valid
+    }"
+  >
     <h2 id="registration">Registration Form</h2>
     <label for="firstname">First Name</label>
     <input
@@ -9,12 +15,12 @@
       formControlName="firstname"
     />
     <div>
-      <span
+      <small
         *ngIf="
           !reactiveForm.get('firstname').valid &&
           reactiveForm.get('firstname').touched
         "
-        >This First Name you entered is not valid!</span
+        >This First Name you entered is not valid!</small
       >
     </div>
 
@@ -26,12 +32,12 @@
       formControlName="lastname"
     />
     <div>
-      <span
+      <small
         *ngIf="
           !reactiveForm.get('lastname').valid &&
           reactiveForm.get('lastname').touched
         "
-        >This Last Name you entered is not valid!</span
+        >This Last Name you entered is not valid!</small
       >
     </div>
 
@@ -43,13 +49,12 @@
       formControlName="age"
     />
     <div>
-  
-      <span *ngIf="reactiveForm.get('age').errors?.['pattern']"
-        >This Age must be numeric value!</span
+      <small *ngIf="reactiveForm.get('age').errors?.['pattern']"
+        >This Age must be numeric value!</small
       >
-      <span
+      <small
         *ngIf="reactiveForm.get('age').errors?.['ageLessSixteen'] && submitted"
-        >This Age must not be less than sixteen!</span
+        >This Age must not be less than sixteen!</small
       >
     </div>
 
@@ -61,45 +66,48 @@
       formControlName="email"
     />
     <div>
-      <span
+      <small
         *ngIf="
           !reactiveForm.get('email').valid && reactiveForm.get('email').touched
         "
-        >This Email you entered is not valid!</span
+        >This Email you entered is not valid!</small
       >
     </div>
 
     <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="Your password.."
-      formControlName="password"
-    />
+    <div class="input-group flex-nowrap">
+      <input
+        [type]="viewPass()"
+        id="password"
+        placeholder="Your password.."
+        formControlName="password"
+        class="form-control"
+      />
+      <span class="input-group-text icon" (click)="toggleShowPass()"><mat-icon *ngIf="!showPass">visibility</mat-icon><mat-icon *ngIf="showPass">visibility_off</mat-icon></span>
+    </div>
     <div>
-      <span
+      <small
         *ngIf="
           !reactiveForm.get('password').valid &&
-          reactiveForm.get('password').dirty
+          reactiveForm.get('password').touched
         "
-        >This Password you entered is not valid!</span
+        >This Password you entered is not valid!</small
       >
     </div>
 
     <label for="confirmPassword">Confirm Password</label>
+    <div class="input-group flex-nowrap">
     <input
-      type="password"
+      [type]="viewConfirmPass()"
       id="confirmPassword"
       placeholder="confirm Passsword.."
       formControlName="confirmPassword"
     />
+    <span class="input-group-text icon" (click)="toggleShowConfirmPass()"><mat-icon *ngIf="!showConfirmPass">visibility</mat-icon><mat-icon *ngIf="showConfirmPass">visibility_off</mat-icon></span>
+  </div>
     <div>
-      <span
-        *ngIf="
-          !reactiveForm.get('confirmPassword').valid &&
-          reactiveForm.get('confirmPassword').dirty
-        "
-        >This Password you entered is not valid!</span
+      <small *ngIf="reactiveForm.get('confirmPassword').errors?.['repassword']"
+        >the two passwords aren't the same!</small
       >
     </div>
 
@@ -122,8 +130,7 @@
           formControlName="{{ i }}"
         />
       </ng-container>
-      <button (click)="addSkills()"
-      >Add Skills</button>
+      <button (click)="addSkills()">Add Skills</button>
     </div>
 
     <input
@@ -135,30 +142,28 @@
   </div>
 </form>
 
-
-  <div class="form-data" *ngIf="reactiveForm.valid && submitted">
-    <h3>Form Data</h3>
-    <p>
-      First Name: <b>{{ firstName }}</b>
-    </p>
-    <p>
-      Last Name: <b>{{ lastName }}</b>
-    </p>
-    <p>
-      Email: <b>{{ email }}</b>
-    </p>
-    <p>
-      Age: <b>{{ age }}</b>
-    </p>
-    <p>
-      Gender: <b>{{ gender }}</b>
-    </p>
-    <p>
-      Password: <b>{{ password }}</b>
-    </p>
-    <p>
-      Skills: <b>{{ skills }}</b>
-    </p>
-    <button (click)="onReset()">reset</button>
-
-  </div>
+<div class="form-data" *ngIf="reactiveForm.valid && submitted">
+  <h3>Form Data</h3>
+  <p>
+    First Name: <b>{{ firstName }}</b>
+  </p>
+  <p>
+    Last Name: <b>{{ lastName }}</b>
+  </p>
+  <p>
+    Email: <b>{{ email }}</b>
+  </p>
+  <p>
+    Age: <b>{{ age }}</b>
+  </p>
+  <p>
+    Gender: <b>{{ gender }}</b>
+  </p>
+  <p>
+    Password: <b>{{ password }}</b>
+  </p>
+  <p>
+    Skills: <b>{{ skills }}</b>
+  </p>
+  <button (click)="onReset()">reset</button>
+</div>
