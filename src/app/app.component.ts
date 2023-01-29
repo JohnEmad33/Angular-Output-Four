@@ -10,15 +10,16 @@ export class AppComponent implements OnInit {
   title = 'AngularOutputFour';
   reactiveForm: FormGroup;
   formStatus: any;
-  firstName:string;
-  lastName:string;
-  age:string;
-  email:string;
-  password:string;
-  confirmPassword:string;
-  gender:string;
-  skills:string;
-  pass:string;
+  firstName: string;
+  lastName: string;
+  age: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender: string;
+  skills: string;
+  pass: string;
+  submitted: boolean = false;
 
   ngOnInit() {
     this.reactiveForm = new FormGroup({
@@ -40,10 +41,11 @@ export class AppComponent implements OnInit {
       confirmPassword: new FormControl(null, [
         Validators.required,
         Validators.minLength(8),
+        // this.repassword,
       ]),
       age: new FormControl(null, [
         Validators.required,
-        this.ageLessEighteen,
+        this.ageLessSixteen,
         Validators.pattern('[0-9]*'),
       ]),
       gender: new FormControl('male', Validators.required),
@@ -60,21 +62,29 @@ export class AppComponent implements OnInit {
     //     email: 'jijo@gmail.com',
     //   });
     // }, 4000);
-
   }
 
   onSubmit() {
     console.log(this.reactiveForm);
 
-    this.firstName=this.reactiveForm.get('firstname').value;
-    this.lastName=this.reactiveForm.get('lastname').value;
-    this.email=this.reactiveForm.get('email').value;
-    this.age=this.reactiveForm.get('age').value;
-    this.password=this.reactiveForm.get('password').value;
-    this.confirmPassword=this.reactiveForm.get('confirmPassword').value;
-    this.gender=this.reactiveForm.get('gender').value;
-    this.skills=this.reactiveForm.get('skills').value;
-    // this.reactiveForm.reset();
+    this.firstName = this.reactiveForm.get('firstname').value;
+    this.lastName = this.reactiveForm.get('lastname').value;
+    this.email = this.reactiveForm.get('email').value;
+    this.age = this.reactiveForm.get('age').value;
+    this.password = this.reactiveForm.get('password').value;
+    this.confirmPassword = this.reactiveForm.get('confirmPassword').value;
+    this.gender = this.reactiveForm.get('gender').value;
+    this.skills = this.reactiveForm.get('skills').value;
+    this.submitted = true;
+    if (this.reactiveForm.valid) {
+      // this.submitted = false;
+    } else {
+      alert('There is some INVALID enteries in the form!!');
+    }
+  }
+  onReset(){
+    this.reactiveForm.reset();
+      this.submitted = false;
   }
 
   addSkills() {
@@ -90,21 +100,20 @@ export class AppComponent implements OnInit {
     return null;
   }
 
-  ageLessEighteen(control: FormControl) {
-    if (control.value != null && control.value <= 18) {
-      return { ageLessEighteen: true };
+  ageLessSixteen(control: FormControl) {
+    if (control.value != null && control.value <= 16) {
+      return { ageLessSixteen: true };
     }
     return null;
   }
 
-  repassword(control: FormControl) {
-    this.reactiveForm.get('password').valueChanges.subscribe(value=> this.pass=value);
-    if (
-      control.value != null &&
-      control.value === this.pass
-    ) {
-      return { repassword: true };
-    }
-    return null;
-  }
+  // repassword(control: FormControl) {
+  //   if (
+  //     control.value != null &&
+  //     control.value != this.reactiveForm.get('password').value
+  //   ) {
+  //     return { repassword: true };
+  //   }
+  //   return null;
+  // }
 }

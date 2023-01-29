@@ -1,6 +1,6 @@
-<div class="form myForm" [ngClass]="formStatus">
-  <h2 id="registration">Registration Form</h2>
-  <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+  <div class="form myForm" [ngClass]="{INVALID:reactiveForm.touched&&reactiveForm.invalid,VALID:reactiveForm.valid}">
+    <h2 id="registration">Registration Form</h2>
     <label for="firstname">First Name</label>
     <input
       type="text"
@@ -10,10 +10,9 @@
     />
     <div>
       <span
-        style="color: red"
         *ngIf="
           !reactiveForm.get('firstname').valid &&
-          reactiveForm.get('firstname').dirty
+          reactiveForm.get('firstname').touched
         "
         >This First Name you entered is not valid!</span
       >
@@ -28,10 +27,9 @@
     />
     <div>
       <span
-        style="color: red"
         *ngIf="
           !reactiveForm.get('lastname').valid &&
-          reactiveForm.get('lastname').dirty
+          reactiveForm.get('lastname').touched
         "
         >This Last Name you entered is not valid!</span
       >
@@ -45,10 +43,13 @@
       formControlName="age"
     />
     <div>
+  
+      <span *ngIf="reactiveForm.get('age').errors?.['pattern']"
+        >This Age must be numeric value!</span
+      >
       <span
-        style="color: red"
-        *ngIf="!reactiveForm.get('age').valid && reactiveForm.get('age').dirty"
-        >This Age you entered is not valid!</span
+        *ngIf="reactiveForm.get('age').errors?.['ageLessSixteen'] && submitted"
+        >This Age must not be less than sixteen!</span
       >
     </div>
 
@@ -61,9 +62,8 @@
     />
     <div>
       <span
-        style="color: red"
         *ngIf="
-          !reactiveForm.get('email').valid && reactiveForm.get('email').dirty
+          !reactiveForm.get('email').valid && reactiveForm.get('email').touched
         "
         >This Email you entered is not valid!</span
       >
@@ -75,11 +75,9 @@
       id="password"
       placeholder="Your password.."
       formControlName="password"
-      [(ngModel)]="password"
     />
     <div>
       <span
-        style="color: red"
         *ngIf="
           !reactiveForm.get('password').valid &&
           reactiveForm.get('password').dirty
@@ -97,7 +95,6 @@
     />
     <div>
       <span
-        style="color: red"
         *ngIf="
           !reactiveForm.get('confirmPassword').valid &&
           reactiveForm.get('confirmPassword').dirty
@@ -125,34 +122,43 @@
           formControlName="{{ i }}"
         />
       </ng-container>
-      <button (click)="addSkills()">Add Skills</button>
+      <button (click)="addSkills()"
+      >Add Skills</button>
     </div>
 
-    <input type="submit" value="Submit" id="btn" />
-  </form>
-</div>
+    <input
+      type="submit"
+      value="Submit"
+      id="btn"
+      [disabled]="reactiveForm.invalid"
+    />
+  </div>
+</form>
 
-<div class="form-data">
-  <h3>Form Data</h3>
-  <p>
-    First Name: <b>{{ firstName }}</b>
-  </p>
-  <p>
-    Last Name: <b>{{ lastName }}</b>
-  </p>
-  <p>
-    Email: <b>{{ email }}</b>
-  </p>
-  <p>
-    Age: <b>{{ age }}</b>
-  </p>
-  <p>
-    Gender: <b>{{ gender }}</b>
-  </p>
-  <p>
-    Password: <b>{{ password }}</b>
-  </p>
-  <p>
-    skills: <b>{{ skills }}</b>
-  </p>
-</div>
+
+  <div class="form-data" *ngIf="reactiveForm.valid && submitted">
+    <h3>Form Data</h3>
+    <p>
+      First Name: <b>{{ firstName }}</b>
+    </p>
+    <p>
+      Last Name: <b>{{ lastName }}</b>
+    </p>
+    <p>
+      Email: <b>{{ email }}</b>
+    </p>
+    <p>
+      Age: <b>{{ age }}</b>
+    </p>
+    <p>
+      Gender: <b>{{ gender }}</b>
+    </p>
+    <p>
+      Password: <b>{{ password }}</b>
+    </p>
+    <p>
+      Skills: <b>{{ skills }}</b>
+    </p>
+    <button (click)="onReset()">reset</button>
+
+  </div>
