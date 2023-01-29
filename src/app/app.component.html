@@ -1,4 +1,4 @@
-<div class="form">
+<div class="form myForm" [ngClass]="formStatus">
   <h2 id="registration">Registration Form</h2>
   <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
     <label for="firstname">First Name</label>
@@ -75,6 +75,7 @@
       id="password"
       placeholder="Your password.."
       formControlName="password"
+      [(ngModel)]="password"
     />
     <div>
       <span
@@ -94,12 +95,16 @@
       placeholder="confirm Passsword.."
       formControlName="confirmPassword"
     />
-    <!-- <div>
+    <div>
       <span
         style="color: red"
-        *ngIf="!reactiveForm.get('firstname').valid && reactiveForm.get('firstname').dirty"
-      >This First Name you entered is not valid!</span>
-    </div> -->
+        *ngIf="
+          !reactiveForm.get('confirmPassword').valid &&
+          reactiveForm.get('confirmPassword').dirty
+        "
+        >This Password you entered is not valid!</span
+      >
+    </div>
 
     <label for="gender">Gender: </label>
     <input type="radio" id="male" value="male" formControlName="gender" />
@@ -127,21 +132,27 @@
   </form>
 </div>
 
-<!-- <div class="form-data">
+<div class="form-data">
   <h3>Form Data</h3>
   <p>
-    First Name: <b>{{ firstname }}</b>
+    First Name: <b>{{ firstName }}</b>
   </p>
   <p>
-    Last Name: <b>{{ lastname }}</b>
+    Last Name: <b>{{ lastName }}</b>
   </p>
   <p>
     Email: <b>{{ email }}</b>
   </p>
   <p>
-    Country: <b>{{ country }}</b>
+    Age: <b>{{ age }}</b>
   </p>
   <p>
-    Gender: <b>{{ gen }}</b>
+    Gender: <b>{{ gender }}</b>
   </p>
-</div> -->
+  <p>
+    Password: <b>{{ password }}</b>
+  </p>
+  <p>
+    skills: <b>{{ skills }}</b>
+  </p>
+</div>

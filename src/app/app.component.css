@@ -48,3 +48,18 @@ input.ng-invalid.ng-touched {
 small {
   color: red;
 }
+
+.myForm.INVALID {
+  border: red 1px solid;
+  box-shadow: 0 0 31px rgba(255, 0, 0, 0.7) !important;
+}
+
+.myForm.PENDING {
+  border: #f6de8b 1px solid;
+  box-shadow: 0 0 31px rgba(255, 235, 0, 0.7) !important;
+}
+
+.myForm.VALID {
+  border: #2ee536 1px solid;
+  box-shadow: 0 0 31px rgba(78, 233, 84, 0.7) !important;
+}
